@@ -1,1 +1,19 @@
+title: l4's blog
+email: l4.foss@gmail.com
+description: "l4's blog"
+baseurl: ""
+url: "https://l4rzy.github.io"
+github_username:  l4rzy
 theme: jekyll-theme-hacker
+
+# Build settings
+markdown: kramdown
+permalink: pretty
+future: true
+
+kramdown:
+    input: GFM
+
+gems:
+  - jekyll-sitemap
+  - jekyll-redirect-from
