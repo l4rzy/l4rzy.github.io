@@ -1,10 +1,14 @@
-title: l4's blog
-email: l4.foss@gmail.com
-description: "l4's blog"
+title: rzy's blog
+email: ndlam96@gmail.com
+description: "rzy's blog"
 baseurl: ""
 url: "https://l4rzy.github.io"
-github_username:  l4rzy
-theme: jekyll-theme-hacker
+github_username: l4rzy
+theme: minima
+
+description: >
+  I'm a Canada based Information Security Student who wants to be a professional Penetration Tester. 
+  This blog is a way to record my learning progress, as well as to share my stuff.
 
 # Build settings
 markdown: kramdown
@@ -12,8 +16,12 @@ permalink: pretty
 future: true
 
 kramdown:
-    input: GFM
+  input: GFM
 
-gems:
+plugins:
   - jekyll-sitemap
   - jekyll-redirect-from
+
+header_pages:
+  - resume.md
+  - about.md
