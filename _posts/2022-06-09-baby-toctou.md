@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: post
 title: "[Webhacking.kr] Baby toctou 🍼 writeup"
 categories: hacking
 ---
