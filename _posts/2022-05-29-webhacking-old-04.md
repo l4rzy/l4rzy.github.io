@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Webhacking.kr] Old-04 writeup"
-categories: hacking
+categories: hacking writeup web
 ---
 
 ## Introduction

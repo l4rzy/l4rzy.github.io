@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Algorithm] How a chess engine works"
-categories: algorithm
+categories: algorithm programming
 ---
 ## Graph - how does chess look like in computer memory
 

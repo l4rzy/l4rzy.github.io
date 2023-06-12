@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Webhacking.kr] Baby toctou 🍼 writeup"
-categories: hacking
+categories: hacking writeup web
 ---
 
 ## Introduction
