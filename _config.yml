@@ -23,5 +23,5 @@ plugins:
   - jekyll-redirect-from
 
 header_pages:
-  - resume.md
+  - portfolio.md
   - about.md
