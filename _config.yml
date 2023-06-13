@@ -11,7 +11,7 @@ description: >
   This blog is a way to record my learning progress, as well as to share my stuff.
 
 # Build settings
-markdown: kramdown
+markdown: maruku
 permalink: pretty
 future: true
 
