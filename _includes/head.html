@@ -8,5 +8,7 @@
     {%- if jekyll.environment == 'production' and site.google_analytics -%}
       {%- include google-analytics.html -%}
     {%- endif -%}
-    {%- include mathjax.html -%}
+    {%- if page.use_math == "true" -%}
+      {%- include mathjax.html -%}
+    {%- endif -%}
   </head>
