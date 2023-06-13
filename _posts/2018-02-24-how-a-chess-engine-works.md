@@ -58,13 +58,13 @@ Notice that the algorithm uses recursive function to expand the game tree. From 
 Let's analyze the algorithm a little bit to see how complicated it is: There are 2 components that introduce the time complexity, the for loop and the recursive call (assume that the `Eval()` function and the `PossibleMoves()` function cost nearly zero).
 
 $$
-\begin{align}
+\begin{align*}
 T(0) = O(1)\\
 T(d) = m + mT(d - 1)
-\end{align}
+\end{align*}
 $$
 
-where \\(m\\) is number of possible moves at a particular state and $d$ is the depth of that state
+where \\(m\\) is number of possible moves at a particular state and \\(d\\) is the depth of that state
 
 Now assume that all states have the same number of possible moves of \\(m\\), by induction:
 
@@ -77,7 +77,7 @@ T(d)
 \end{align}
 $$
 
-So the time complexity of above function is $O(m^d)$ in which $d$ is the depth and $m$ is the number of possible moves in a state of that depth (assume that all states have the same number of possible moves). That's considered extra-high complexity.
+So the time complexity of above function is \\(O(m^d)\\) in which \\(d\\) is the depth and \\(m\\) is the number of possible moves in a state of that depth (assume that all states have the same number of possible moves). That's considered extra-high complexity.
 
 ## Optimizations
 
@@ -87,7 +87,7 @@ You might have realized the above algorithm is nothing but a simple brute-force 
 
 Take a look at the above graph, on the green branch, computer chose the smallest among 3 evaluated values [4, 5, 4] to determine the worst possible value of maximizing player. On the light-blue branch, the first value is calculated and equal to 2 thus the value of this branch should never be greater than 2. But since the value of green branch is 4, which is greater than the smallest value of the blue branch, the final value (golden node) will be 4 without being influenced by the coral node. That means the computer doesn't need to evaluate this node.
 
-The name of the above clever scheme is alpha-beta pruning algorithm. The algorithm is implemented by maintaining two values: alpha and beta which represent the minimum value that the maximizing player is assured, and the minimum value that the minimizing player is assured, respectively. Due to some cut-offs on branches, this scheme allows minimax to search deeper within the same amount of time as normal minimax. The search can go twice as deep with the same amount of computation, compared to the normal minimax. And the time complexity decreases from $O(m^d)$ to $O(\sqrt{m^d})$ in the best case - pretty impressive.
+The name of the above clever scheme is alpha-beta pruning algorithm. The algorithm is implemented by maintaining two values: alpha and beta which represent the minimum value that the maximizing player is assured, and the minimum value that the minimizing player is assured, respectively. Due to some cut-offs on branches, this scheme allows minimax to search deeper within the same amount of time as normal minimax. The search can go twice as deep with the same amount of computation, compared to the normal minimax. And the time complexity decreases from \\(O(m^d)\\) to \\(O(\sqrt{m^d})\\) in the best case - pretty impressive.
 
 Now let's see how it could be implemented in the code:
 
