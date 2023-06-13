@@ -63,9 +63,11 @@ T(0) = O(1)\\
 T(d) = m + mT(d - 1)
 \end{align}
 $$
-where $m$ is number of possible moves at a particular state and $d$ is the depth of that state
 
-Now assume that all states have the same number of possible moves of $m$, by induction:
+where \\(m\\) is number of possible moves at a particular state and $d$ is the depth of that state
+
+Now assume that all states have the same number of possible moves of \\(m\\), by induction:
+
 $$
 \begin{align}
 T(d)
@@ -74,6 +76,7 @@ T(d)
 & = \displaystyle\sum_{i=1}^{d} m^i
 \end{align}
 $$
+
 So the time complexity of above function is $O(m^d)$ in which $d$ is the depth and $m$ is the number of possible moves in a state of that depth (assume that all states have the same number of possible moves). That's considered extra-high complexity.
 
 ## Optimizations

@@ -1,11 +1,33 @@
-<!-- Mathjax Config -->
-<script>
+<!-- Mathjax Config 
+<script type="text/x-mathjax-config">
     MathJax.Hub.Config({
         jax: ["input/TeX", "output/HTML-CSS"],
-        displayAlign: "left"
+        displayAlign: "left",
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
     });
 </script>
 
-<!-- Mathjax Support -->
 <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+-->
+
+
+<script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/MathJax.js?config=TeX-AMS_CHTML">
+    </script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      processEscapes: true},
+      jax: ["input/TeX","input/MathML","input/AsciiMath","output/CommonHTML"],
+      extensions: ["tex2jax.js","mml2jax.js","asciimath2jax.js","AssistiveMML.js"],
+      TeX: {
+      extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"],
+      equationNumbers: {
+      autoNumber: "AMS"
+      }
+    }
+  });
 </script>
