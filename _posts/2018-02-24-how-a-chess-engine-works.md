@@ -59,8 +59,8 @@ Let's analyze the algorithm a little bit to see how complicated it is: There are
 
 $$
 \begin{align*}
-T(0) = O(1)\\
-T(d) = m + mT(d - 1)
+T(0) & = O(1)\\
+T(d) & = m + mT(d - 1)
 \end{align*}
 $$
 
