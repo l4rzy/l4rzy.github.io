@@ -4,6 +4,6 @@ title: About
 permalink: /about/
 ---
 
-# About me
+## About me
 
-TBD
+I'm a Information Security student from Vietnam. 
