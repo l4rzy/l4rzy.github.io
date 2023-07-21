@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "[Webhacking.kr] Web-23 writeup"
+title: "[Webhacking.kr] Old-23 writeup"
 categories: hacking writeup web
 ---
 
@@ -27,17 +27,17 @@ So far, we know that it doesn't accept a sequence of characters. How about we es
 Let's try
 `&#60&#115&#99&#114&#105&#112&#116&#62&#97&#108&#101&#114&#116&#40&#49&#41&#59&#60&#47&#115&#99&#114&#105&#112&#116&#62`
 
-![Test1](/assets/images/web-23/test1.png)
+![Test1](/assets/images/old-23/test1.png)
 
 Yay, we did it! Except, that was just text. And of course, the script was not executed.
 
 Let's look at the inspection to see why
 
-![Test1 Inspection](/assets/images/web-23/test1_inspect.png)
+![Test1 Inspection](/assets/images/old-23/test1_inspect.png)
 
 I was naive enough, although Firefox rendered the whole thing in text, those characters were escaped. We can make sure by using curl
 
-![Test1 Curl](/assets/images/web-23/test1_curl.png)
+![Test1 Curl](/assets/images/old-23/test1_curl.png)
 
 ## NULL byte in the URL
 
@@ -51,6 +51,6 @@ print('%00'.join(script))
 
 And we'll use it on the URL, because if we use it in the prompt, the NULL bytes will get escaped again and it will not work.
 
-![Pwned](/assets/images/web-23/pwned.png)
+![Pwned](/assets/images/old-23/pwned.png)
 
 And the challenge is solved!
