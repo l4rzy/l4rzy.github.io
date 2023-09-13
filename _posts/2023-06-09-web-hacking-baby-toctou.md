@@ -6,6 +6,8 @@ categories: hacking writeup web
 
 ## Introduction
 
+Link: http://webhacking.kr:10019/
+
 I decided to give myself a try on this challenge which was solved my only 42 people at the time. I thought it would be a challenging (and interesting) one. In the end this one was not that hard, but surely an interesting one.
 
 ## First look

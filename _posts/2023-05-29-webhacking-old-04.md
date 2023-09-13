@@ -5,6 +5,9 @@ categories: hacking writeup web
 ---
 
 ## Introduction
+
+Link: https://webhacking.kr/challenge/web-04/
+
 We start with a very compact php code:
 
 ```php

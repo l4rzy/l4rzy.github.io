@@ -6,6 +6,8 @@ categories: hacking writeup web
 
 # Introduction
 
+Link: https://webhacking.kr/challenge/web-33/
+
 The challenge is quite easy to understand. You can not enter the admin page, you can enter the
 guest page. You also have a search function to search for content in all pages.
 
