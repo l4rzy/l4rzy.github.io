@@ -6,7 +6,7 @@ categories: hacking writeup web
 
 ## Introduction
 
-Link: https://webhacking.kr/challenge/bonus-3/
+Link: [https://webhacking.kr/challenge/bonus-3/](https://webhacking.kr/challenge/bonus-3/)
 
 This is a straightforward XSS challenge. However, this one is a blackbox: You can not see anything in the code.
 

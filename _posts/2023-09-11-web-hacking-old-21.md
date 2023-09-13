@@ -5,7 +5,7 @@ categories: hacking writeup web
 ---
 
 # Introduction
-Link: https://webhacking.kr/challenge/bonus-1/
+Link: [https://webhacking.kr/challenge/bonus-1](https://webhacking.kr/challenge/bonus-1)
 
 # 1st try
 I know we can get some clues from the vulnerable app because it's vulnerable to Blind SQL Injection.
