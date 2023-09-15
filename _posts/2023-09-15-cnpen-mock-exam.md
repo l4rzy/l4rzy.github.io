@@ -81,8 +81,12 @@ I tried Duckduckgo to search for certharvest (because Google returned not much i
 
 ![x2](/assets/images/cnpen/x2.png)
 
-One more clue: the email address `certharvest@proton.me`
-I tried to search on Github, and there was a repo named certharvest, but no sensitive information found! Let's try search Pastebin instead. And right of the bat:
+One more clue: the email address `certharvest@proton.me`. I tried to look it up on different OSINT sites, no relevance found.
+
+I tried to search on Github, and there was a repo named `certharvest`, for a moment I thought that was it, but no sensitive information found!
+
+Let's try search Pastebin instead. And right of the bat:
+
 ![Pastebin](/assets/images/cnpen/pb1.png)
 
 Now the last challenge is to use the ssh key to get to somewhere, specifically to read the flag on `s2.cnpen-mock.secops.group`
@@ -105,3 +109,6 @@ rzy@L4SPC % cat flag.txt                                                        
 flag{j7j9wTek9Mevc48NfNJD4eAWhi6FQRfaW22irWAcu2NBiVTcuHJ7qHA9g6tH}
 ```
 And done!
+
+# Conclusion
+For an intermediate certificate, this is not hard. But this exam requires certain practical skills! 
