@@ -1,14 +1,14 @@
 ---
 layout: post
 title: "[CNPen] CNPen Mock Exam Writeup"
-categories: hacking writeup network samba windows
+categories: hacking writeup network
 ---
 
 # Introduction
 I encountered those "challenges" when doing the mock exam for CNPen. There are 4 questions in total, divided in two parts. They were not hard at all, but I did learn something interesting to share.
 
 # First part
-In the first part of the exam, they provided a leaked hash `94643dacaa6b1b9cd9724ddb050b5f01` for a user named `Peter`
+In the first part of the exam, they provided a leaked hash `94643dacaa6b1b9cd9724ddb050b5f01` for a user named `Peter`.
 After successfully cracking the hash on [https://crackstation.net](https://crackstation.net/), I retrieved the password. I also knew that the type of the hash was NTLM.
 
 ![Crack station](/assets/images/cnpen/cs1.png)
