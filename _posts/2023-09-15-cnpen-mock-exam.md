@@ -5,7 +5,7 @@ categories: hacking writeup network samba windows
 ---
 
 # Introduction
-I encountered those "challenges" when doing the mock exam for CNPen. They were not hard at all, but I did learn something interesting to share.
+I encountered those "challenges" when doing the mock exam for CNPen. There are 4 questions in total, divided in two parts. They were not hard at all, but I did learn something interesting to share.
 
 # First part
 In the first part of the exam, they provided a leaked hash `94643dacaa6b1b9cd9724ddb050b5f01` for a user named `Peter`.
@@ -64,8 +64,10 @@ rzy@L4SPC % cat Secret.txt                                                      
 flag{HbzBNrndXmTG3d6XwXdwchNpGBbUCRtLzeHrZaTvrQBpexpAZU7tuChxXGv7}%
 ```
 # Second part
-The second part of the exam was about OSINT. My objective is to find the leaked SSH key with one clue: `www.certharvest.com`
+The second part of the exam was about OSINT. My objective is to find the leaked SSH key with one clue: `www.certharvest.com`.
+
 I used [WHOIS](https://www.whois.com/whois/certharvest.com) and `nslookup` to look for more info. Interestingly, it points to `localhost`.
+
 ```
 rzy@L4SPC % nslookup www.certharvest.com                                                                              ~
 Server:         172.22.208.1
@@ -76,7 +78,8 @@ www.certharvest.com     canonical name = certharvest.com.
 Name:   certharvest.com
 Address: 127.0.0.1
 ```
-I tried Duckduckgo to search for certharvest (because Google returned not much interesting information) and I found something intriguing: a Twitter (X) account that has posts about OSINT. Coincidence? I don't think so
+I tried Duckduckgo to search for certharvest (because Google returned not much interesting information) and I found something intriguing: a Twitter (X) account that has posts about OSINT. Coincidence? I don't think so!
+
 ![x1](/assets/images/cnpen/x1.png)
 
 ![x2](/assets/images/cnpen/x2.png)
@@ -91,9 +94,33 @@ Let's try search Pastebin instead. And right of the bat:
 
 Now the last challenge is to use the ssh key to get to somewhere, specifically to read the flag on `s2.cnpen-mock.secops.group`
 
+Let's scan the site for more information
+
+```
+rzy@L4SPC % nmap -A -Pn -sV s2.cnpen-mock.secops.group                                                                ~
+Starting Nmap 7.94 ( https://nmap.org ) at 2023-09-15 01:06 CDT
+Nmap scan report for s2.cnpen-mock.secops.group (54.173.188.72)
+Host is up (0.057s latency).
+rDNS record for 54.173.188.72: ec2-54-173-188-72.compute-1.amazonaws.com
+Not shown: 998 filtered tcp ports (no-response)
+PORT    STATE  SERVICE VERSION
+22/tcp  closed ssh
+222/tcp open   ssh     OpenSSH 8.9p1 Ubuntu 3ubuntu0.3 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey:
+|   256 10:d7:a2:36:a2:d7:a3:dc:c7:fb:73:b7:b3:ca:a2:f1 (ECDSA)
+|_  256 fc:a9:d8:ed:8e:d6:62:e0:29:5e:de:51:bf:da:bb:5d (ED25519)
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 18.04 seconds
+```
+
 After setting up the key, let's go get the flag:
 
 ```
+rzy@L4SPC % ssh alice@s2.cnpen-mock.secops.group -p222                                                                ~
+This service allows sftp connections only.
+Connection to s2.cnpen-mock.secops.group closed.
 rzy@L4SPC % sftp -P 222 alice@s2.cnpen-mock.secops.group                                                              ~
 Connected to s2.cnpen-mock.secops.group.
 sftp> ls
