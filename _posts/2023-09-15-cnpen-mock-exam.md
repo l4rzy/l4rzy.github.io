@@ -8,13 +8,12 @@ categories: hacking writeup network samba windows
 I encountered those "challenges" when doing the mock exam for CNPen. There are 4 questions in total, divided in two parts. They were not hard at all, but I did learn something interesting to share.
 
 # First part
-In the first part of the exam, they provided a leaked hash `94643dacaa6b1b9cd9724ddb050b5f01` for a user named `Peter`.
-After successfully cracking the hash on [https://crackstation.net](https://crackstation.net/) I retried the password
-I also knew that the type of the hash was NTLM
+In the first part of the exam, they provided a leaked hash `94643dacaa6b1b9cd9724ddb050b5f01` for a user named `Peter`
+After successfully cracking the hash on [https://crackstation.net](https://crackstation.net/), I retrieved the password. I also knew that the type of the hash was NTLM.
 
 ![Crack station](/assets/images/cnpen/cs1.png)
 
-I did an nmap scan to look for running services
+I did an nmap scan to look for running services:
 ```
 rzy@L4SPC % nmap -Pn -sV -p1-10000 s1.cnpen-mock.secops.group                                                         ~
 Starting Nmap 7.94 ( https://nmap.org ) at 2023-09-14 19:58 CDT
@@ -31,11 +30,11 @@ Service detection performed. Please report any incorrect results at https://nmap
 Nmap done: 1 IP address (1 host up) scanned in 34.44 seconds
 ```
 
-Next, I'll try the RDP one on port 3389
+Next, I'll try the RDP one on port 3389:
 
 ![RDP1](/assets/images/cnpen/rdp1.png)
 
-Let's try the other one, I know that `microsoft-ds` service is for file sharing, so let's install Samba and connect to the service
+Let's try the other one, I know that `microsoft-ds` service is for file sharing, so let's install Samba and connect to the service:
 
 ```
 rzy@L4SPC % smbclient -U peter -p 4455 -L s1.cnpen-mock.secops.group                                                  ~
@@ -64,7 +63,7 @@ rzy@L4SPC % cat Secret.txt                                                      
 flag{HbzBNrndXmTG3d6XwXdwchNpGBbUCRtLzeHrZaTvrQBpexpAZU7tuChxXGv7}%
 ```
 # Second part
-The second part of the exam was about OSINT. My objective is to find the leaked SSH key with one clue: `www.certharvest.com`.
+The second part of the exam was about OSINT. My objective is to find the leaked SSH key with one clue: `www.certharvest.com`
 
 I used [WHOIS](https://www.whois.com/whois/certharvest.com) and `nslookup` to look for more info. Interestingly, it points to `localhost`.
 
@@ -94,7 +93,7 @@ Let's try search Pastebin instead. And right of the bat:
 
 Now the last challenge is to use the ssh key to get to somewhere, specifically to read the flag on `s2.cnpen-mock.secops.group`
 
-Let's scan the site for more information
+Let's scan the site for more information:
 
 ```
 rzy@L4SPC % nmap -A -Pn -sV s2.cnpen-mock.secops.group                                                                ~
