@@ -3,6 +3,7 @@ email: ndlam96@gmail.com
 description: "rzy's blog"
 baseurl: ""
 url: "https://l4rzy.github.io"
+google_analytics: G-EJT5J8BR6L
 github_username: l4rzy
 theme: minima
 
