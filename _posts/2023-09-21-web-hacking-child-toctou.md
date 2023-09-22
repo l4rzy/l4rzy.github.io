@@ -13,16 +13,20 @@ This was the least solved challenge on this site, why not giving myself some rea
 
 ![shell](/assets/images/child-toctou/shell.png)
 
-It is pretty much like its predecessor [baby toctou](/_posts/2023-06-09-web-hacking-baby-toctou.md), it has a shell, all you can do on that shell is to list and cat some source code, but not the flag. Let's look at the `api.php` code:
+It is pretty much like its predecessor [baby toctou]({{ site.baseurl }}{% link _posts/2023-06-09-web-hacking-baby-toctou.md %}). It has a shell, all you can do on that shell is to list and cat some source code, but not the flag. Let's look at the `api.php` code:
 
 ```php
 <?php
   // system($_GET['q']);
   $cmd = $_GET['q'];
   if($cmd){
-    if(count(explode(":",$_SERVER['HTTP_HOST'])) > 1) $_SERVER['HTTP_HOST'] = explode(":",$_SERVER['HTTP_HOST'])[0];
-    if(!preg_match("/^[a-z0-9-.]+$/",$_SERVER['HTTP_HOST'])) exit("ahh nice try");
-    if(($_SERVER['HTTP_HOST'] !== "webhacking.kr") && (gethostbyname($_SERVER['HTTP_HOST']) !== "202.182.106.159")) exit("Something wrong");
+    if(count(explode(":",$_SERVER['HTTP_HOST'])) > 1)
+        $_SERVER['HTTP_HOST'] = explode(":",$_SERVER['HTTP_HOST'])[0];
+    if(!preg_match("/^[a-z0-9-.]+$/",$_SERVER['HTTP_HOST']))
+        exit("ahh nice try");
+    if(($_SERVER['HTTP_HOST'] !== "webhacking.kr") 
+        && (gethostbyname($_SERVER['HTTP_HOST']) !== "202.182.106.159")) 
+        exit("Something wrong");
     sleep(1); // my server is small and weak
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, "http://{$_SERVER['HTTP_HOST']}:10020/cmd/".rawurlencode($cmd).".txt");
@@ -52,7 +56,7 @@ if(($_SERVER['HTTP_HOST'] !== "webhacking.kr") && (gethostbyname($_SERVER['HTTP_
 ```
 This line suggests that we can use anything different than `webhacking.kr`, as long as the IP address is still `202.182.106.159` or vise versa.
 
-Now, what if we have a DNS record that points to that IP address, so we can pass all the checks, and we take advantage of the `sleep(1);`, we change it back to our server address just before the set url? BOOM! It's a vulnerability there.
+Now, what if we have a DNS record that points to that IP address, so we can pass all the checks, and just before the `curl_setopt` call, we take advantage of the `sleep(1)` to change it back to our server address? BOOM! There's a vulnerability there.
 
 ## And how exactly can we do that?
 Idk, will be updated.
