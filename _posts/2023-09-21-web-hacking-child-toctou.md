@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "[Webhacking.kr] Child toctou 🚲 writeup (kinda)"
+title: "[Webhacking.kr] Child toctou 🚲 writeup part 1"
 categories: hacking writeup web
 ---
 
