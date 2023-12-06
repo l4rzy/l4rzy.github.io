@@ -19,7 +19,9 @@ NoIP's Dynamic DNS service is a free service that allows us to create a DNS reco
 
 ![change_dns](/assets/images/child-toctou/change_dns.png)
 
-But I don't want to do it manually, so I inspect the API calls on the site, and convert to Python for automation
+But I don't want to do it manually, so I inspect the API calls on the site, and convert to Python for automation. Fortunately, modern browsers (Tested on Firefox and Chrome) support copying a request as cURL, and there is an [online service](https://curlconverter.com/) that converts cURL commands to Python code.
+
+![curl](/assets/images/child-toctou/inspector.png)
 
 ### DNS Resolver
 
