@@ -174,4 +174,4 @@ And when we see a bunch of requests like this on our server, the challenge got p
 ## Conclusion
 I was surprised that there were only 18 people have solved this challenge (I was the 19th). I believe many people have the idea to solve, but the process of solving it is a little bit cumbersome.
 
-P.S. So just after solving the 2 toctou challenges, I just happened to know that TOCTOU was a class of software bugs. The idea behind this class of bugs is to exploit the time window between two calls to modify a state. Read more on wiki: (https://en.wikipedia.org/wiki/Time-of-check_to_time-of-use)[https://en.wikipedia.org/wiki/Time-of-check_to_time-of-use]
+P.S. So just after solving the 2 toctou challenges, I just happened to know that TOCTOU was a class of software bugs. The idea behind this class of bugs is to exploit the time window between two calls to modify a state. Read more on wiki: [https://en.wikipedia.org/wiki/Time-of-check_to_time-of-use](https://en.wikipedia.org/wiki/Time-of-check_to_time-of-use)
