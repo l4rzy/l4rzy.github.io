@@ -33,7 +33,7 @@ One thing I noticed was when changing DNS record, DNS servers don't reflect the 
 ### Exposing my server
 
 Now how do I expose my server to carry the payload? I tried using ngrok, but ngrok free plan can not expose a specific port. So I decided to buy a cheap VPS from Vultr with an public IPv4 address.
-One notice is Vultr blocks all incoming traffic except on port 22 (SSH) by default, so in order to expose port 10020, we need to unblock it first
+One thing to keep in mind is Vultr blocks all incoming traffic except on port 22 (SSH) by default, so in order to expose port 10020, we need to unblock it first
 
 ```sh
 sudo ufw allow from 202.182.106.159 proto tcp to any port 10020 
