@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "[Software] I wrote a small utility tool for automating boring SOC work"
+title: "[Software] I wrote a small tool for automating the boring SOC tasks"
 categories: python soc software automation
 ---
 
@@ -20,7 +20,7 @@ Furthermore, they usually have authentication on the proxy. This authentication 
 
 Another problem remains, corporate's CA is not always working well with openssl. Since I am using Python, both `http.client` and `requests` use openssl bundled with Python. To overcome this, I decided to use pycurl, which is based on libcurl. Libcurl on Windows use SCHANNEL by default, so it makes everything easier.
 
-## Non-block UI
+## Non-blocking UI
 Since Tkinter doesn't have native support for asyncio, I achieved a non-block UI by using python theads and shared memory. When the program needs to connect to the internet, it spawns a thread with a pointer to the main UI as a parameter. When the network task is done, it calls back to the UI to render the result. 
 
 ## DNS problem
@@ -40,3 +40,5 @@ And analyze the content too
 
 ## Conclusion
 It was a fun journey. It's been quite some time since the last time I wrote something not trivial. Although my software is not perfect, I'm working on it in my free time to improve it even more.
+
+Checkout the source code: [https://github.com/l4rzy/toolbox](https://github.com/l4rzy/toolbox)
