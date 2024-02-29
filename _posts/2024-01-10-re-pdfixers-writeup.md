@@ -1,25 +1,25 @@
 ---
 layout: post
-title: "[RE] Reversing PDFixers writeup"
+title: "[RE] Reversing PDFixers.exe writeup"
 categories: hacking writeup re js dotnet
 ---
 
 ## Introduction
-I encountered PDFixers.exe because of some alerts from the IPS system tripping off because a user downloaded and ran this file. Checking on VirusTotal, the file appeared safe: non of the antivirus vendors marked it possitive, even the almighty Bkav Pro. Out  of curiosity, I decided to take a look at it. And it surely was a fun journey.
+I came across this file named PDFixers.exe because of some alerts from the IPS system tripping off since a user downloaded and ran this file. Upon doing a VirusTotal check, the file appeared safe: non of the antivirus vendors marked it possitive, even the almighty Bkav Pro. Out  of curiosity, I decided to take a look at it. And it surely was a fun journey.
 
 ![virustotal](/assets/images/pdfixers/virustotal.png)
 ![bkav](/assets/images/pdfixers/bkav.png)
 
 ## From .NET binary
-After a quick check, the file turned out to be a .NET binary file. Let's use [ILSpy](https://github.com/icsharpcode/ILSpy) to take a look at its source code. Although I like ILSpy as a tool, I prefer using my editor to browse the code. So I exported the disassembled code into a folder.
+After a quick check, the file turned out to be a .NET binary file. So I used [ILSpy](https://github.com/icsharpcode/ILSpy) to take a look at its source code. Although I like ILSpy as a tool, I prefer using my editor to browse the code. So I exported the disassembled code into a folder.
 
 ![structure](/assets/images/pdfixers/code_structure.png)
 
-Right off the bat, the source code is really small, the big thing that made up the 8.3MB binary is a resource file that contains a zip file of SumatraPDF (my favorite PDF reader btw). After checking the SumatraPDF.exe file, the file was safe and its hash matches the one downloaded from the official website.
+Right off the bat, the source code was really small, the big thing that made up the 8.3MB binary was a resource file that contained a zip file of SumatraPDF (my favorite PDF reader btw). After checking the SumatraPDF.exe file, the file was safe and its hash matches the one downloaded from the official website.
 
 ![code](/assets/images/pdfixers/code.png)
 
-I also see some suspicious functions here. The thing is, these functions have no references in the whole source code. So the binary is safe right? Not quite!
+I also saw some suspicious functions here. The thing is, these functions had no references in the whole source code. So the binary must be safe right? Not quite!
 
 ```cs
 [DesignerGenerated]
