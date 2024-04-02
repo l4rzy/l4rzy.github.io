@@ -28,6 +28,9 @@ Another small problem is with the DNS lookup functionality. System DNS via `sock
 
 I reluctantly switched back to `socket` and tried to find a way to cancel the thread when timed out. But then I found one trick of Tkinter, which was `after` function. So I solved the probem without using any extra thread. The dns resolver worker will return `None` when timed out, the `socket` thread is still running, but the result of it will be discarded.
 
+## Tunnel server
+Since the tool is designed to use by the whole team, this feature is for sharing the same set of api tokens for the whole team. The idea is to have a server that will supply api tokens to user requests before making them. Furthermore, requests of the same content can be cached for better latency.
+
 ## OCR
 Another thing I noticed was team collaboration on call. Threat hunting on Teams calls involves copy and paste, or inspect IPs, URLs on the sharing screen. For that reason I added OCR functionality with tesseract library. Now when somebody's sharing something, I can just screenshot and paste to my toolbox.
 
