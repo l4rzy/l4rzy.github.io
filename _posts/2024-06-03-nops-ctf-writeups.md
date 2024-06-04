@@ -4,7 +4,7 @@ title: "[CTF] N0PS CTF writeups"
 categories: ctf re forensics
 ---
 
-## Reverse Me
+## Reverse Me (RE, 62 solved)
 
 ```sh
 > file img.jpg
@@ -123,7 +123,7 @@ And finally solve the challenge:
 N0PS{r1CKUNr0111N6}
 ```
 
-## HID
+## HID (Forensics, 30 solved)
 
 The challenge provides a pcapng file (Packet capture). Let's open it in Wireshark.
 ![wireshark](/assets/images/nopsctf/wireshark.png)
@@ -203,3 +203,90 @@ It doesn't look quite right, does it? Because in computer graphics, the 2D Carte
 ![flipped](/assets/images/nopsctf/flipped.png)
 
 It took me a while to guess the flag due to the ugly mousewriting. `N0PS{m0Us3_dR4w1Ng}`
+
+## ZipZip (Forensics, 15 solved)
+
+![zipzip](/assets/images/nopsctf/zipzip.png)
+
+I solved this challege after it ended. Anyways let's take a look at the zip file without minding too much the hints.
+
+```
+> file archive.zip
+archive.zip: Zip archive data, at least v2.0 to extract, compression method=deflate
+
+> unzip -lv archive.zip
+Archive:  archive.zip
+ Length   Method    Size  Cmpr    Date    Time   CRC-32   Name
+--------  ------  ------- ---- ---------- ----- --------  ----
+  174585  Defl:N    45057  74% 2024-04-04 06:58 39b029c4  4ad9edde81b5526dcd95747a96a90583
+--------          -------  ---                            -------
+  174585            45057  74%                            1 file
+```
+
+Nothing so special, let's unzip it and see what's inside.
+
+```
+> file 4ad9edde81b5526dcd95747a96a90583
+4ad9edde81b5526dcd95747a96a90583: ASCII text, with CRLF line terminators
+```
+
+The file is just PKZIP latest specifications. When comparing with the original file from the internet, the two file were exactly the same.
+
+```
+0b993022a7d320a0bf704e6980bea36fafd17a6066ab994db0a0c16278a50cd6  4ad9edde81b5526dcd95747a96a90583
+0b993022a7d320a0bf704e6980bea36fafd17a6066ab994db0a0c16278a50cd6  APPNOTE-6.3.10.TXT
+```
+
+Let's inspect it under the microscope. I know two editors with binary template technology that could make the parsing done automatically: imhex and 010editor. Unfortunately, the default script in imhex refused to work, but 010editor was alright.
+
+![archive010](/assets/images/nopsctf/archive010.png)
+
+As we can see, the header of the file was parsed beautifully. There's nothing wrong with it. But let's compare to another zip file. I created another zip file from the same exact zip specification file.
+
+```
+> zip -8 test.zip 4ad9edde81b5526dcd95747a96a90583
+  adding: 4ad9edde81b5526dcd95747a96a90583 (deflated 74%)
+```
+
+![test010](/assets/images/nopsctf/test010.png)
+
+Now a normal zip file has 4 elements:
+ - A Header Record that contains signature (PK\x03\x04), Version, Compression Method, etc.
+ - Data
+ - Directory Entry
+ - End Locator
+
+Comparing the two file, we can see there are something odd: There are bytes that should not be there. Let's remove these bytes and try again.
+
+![diff](/assets/images/nopsctf/diff.png)
+
+```
+> unzip archive_truncated.zip
+Archive:  archive_truncated.zip
+error [archive_truncated.zip]:  missing 71 bytes in zipfile
+  (attempting to process anyway)
+error: invalid zip file with overlapped components (possible zip bomb)
+ To unzip the file anyway, rerun the command with UNZIP_DISABLE_ZIPBOMB_DETECTION=TRUE environmnent variable
+```
+
+Because we didn't change the compressed size in the header, it says 71 bytes are missing. Let's override that and extract the file anyways.
+
+```
+> UNZIP_DISABLE_ZIPBOMB_DETECTION=TRUE unzip archive_truncated.zip
+...
+> sha256 output_truncated
+0b993022a7d320a0bf704e6980bea36fafd17a6066ab994db0a0c16278a50cd6  output_truncated
+```
+
+So the file was extracted successfully. Let's go back to the 71 bytes that we just deleted. It oddly looks like a header record of a ZIP file followed by some data. And when I recreated the zip file.
+
+![recovered](/assets/images/nopsctf/recovered.png)
+
+Looks good, let's unzip it, forcefully.
+
+```
+> UNZIP_DISABLE_ZIPBOMB_DETECTION=TRUE unzip archive_extracted.zip
+...
+> cat output
+N0PS{z1p_z1p_z1p_z1p}%
+```
