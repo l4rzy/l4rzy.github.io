@@ -383,7 +383,7 @@ Interesting, the system crontab runs every minute, calling the script at `/usr/l
 [alfredo@fedora restapi]$ cat tar
 #!/bin/bash
 
-mkdir -o /root/.ssh
+mkdir -p /root/.ssh
 cp /home/alfredo/.ssh/authorized_keys /root/.ssh/
 ```
 
