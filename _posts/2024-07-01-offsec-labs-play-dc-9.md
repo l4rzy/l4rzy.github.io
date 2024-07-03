@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "[Offsec] DC-4 writeup"
+title: "[Offsec] DC-9 writeup"
 categories: ctf offsec oscp
 ---
 
