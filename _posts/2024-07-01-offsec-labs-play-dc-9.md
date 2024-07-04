@@ -572,7 +572,7 @@ else :
     f.close()
 ```
 
-So we know that we can basically run `cp` as root. There are many ways to get root, let's append the sudoers file.
+So we know that we can basically append to any file as root. There are many ways to get root, for example let's append the sudoers file.
 
 ```
 fredf@dc-9:/etc/sudoers.d$ echo "fredf   ALL=(root) NOPASSWD: /usr/bin/bash" > /tmp/conf
